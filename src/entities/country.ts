@@ -25,6 +25,10 @@ export class Country extends BaseEntity {
   @Field()
   emoji!: string;
 
+  @Column()
+  @Field()
+  continentCode!: string;
+
   static async getCountry(code?: string): Promise<Country[]> {
     const countries = await Country.createQueryBuilder("country")
     .where("country.code = :code", { code })
