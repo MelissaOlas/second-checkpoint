@@ -1,23 +1,19 @@
-import 'reflect-metadata';
-import { createConnection } from 'typeorm';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import { CountryResolver } from './resolvers/countryResolvers';
 
-async function main() {
-  await createConnection();
-
+async function startApolloServer() {
   const schema = await buildSchema({
     resolvers: [CountryResolver],
-    emitSchemaFile: true,
-    validate: false,
   });
 
   const server = new ApolloServer({ schema });
 
-  server.listen().then(({ url }) => {
-    console.log(`Server running at ${url}`);
+  const PORT = process.env.PORT || 4000;
+
+  server.listen(PORT).then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
   });
 }
 
-main();
+startApolloServer();
